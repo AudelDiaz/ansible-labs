@@ -1,0 +1,22 @@
+---
+- name: Validate access to proxy host and port
+  wait_for:
+    host: google.com
+    port: 80
+    delay: 0
+    timeout: 3
+
+- name: Validate access to uris with proxy
+  uri:
+    follow_redirects: all
+    validate_certs: false
+    timeout: 5
+    url: "{{ item }}"
+  with_items:
+    - https://nginx.org
+    - https://docker.io
+    - https://example.com
+  environment:
+    - http_proxy: 206.189.210.41:3128
+    - https_proxy: 206.189.210.41:3128
+      
